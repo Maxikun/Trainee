@@ -1,0 +1,6 @@
+cd ~/catkin_ws/src
+catkin_create_pkg beginner_tutorials std_msgs rospy roscpp
+cd ~/catkin_ws
+catkin_make
+chmod +x ~/catkin_ws/devel/setup.bash
+~/catkin_ws/devel/setup.bash
