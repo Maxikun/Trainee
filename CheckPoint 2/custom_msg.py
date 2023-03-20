@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import rospy
 
-from abc_vcu.msgs import custom
+from chekcPoint2.msgs import custom
 
 def log(msg):
     rospy.loginfo("%s X: %f Y: %f Z: %f", msg.message, msg.x, msg.y, msg.z)
