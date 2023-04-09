@@ -1,5 +1,0 @@
-Timestamp:        0.000000    ID: 00c0ffee    X Rx                DL:  8    00 19 00 01 03 01 04 01
-Timestamp:        0.000000    ID: 00c0ffee    X Rx                DL:  8    00 19 00 01 03 01 04 01
-Timestamp:        0.000000    ID: 00c0ffee    X Rx                DL:  8    00 19 00 01 03 01 04 01
-Timestamp:        0.000000    ID: 00c0ffee    X Rx                DL:  8    00 19 00 01 03 01 04 01
-Timestamp:        0.000000    ID: 00c0ffee    X Rx                DL:  8    00 19 00 01 03 01 04 01
