@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv(r'C:\Users\study\Desktop\Checkpoint_1\CSV\Birth_rate.csv')
+df = pd.read_csv(r'C:\Users\study\Desktop\Trainee\PPC\Checkpoint_1\CSV\Birth_rate.csv')
 
 np_india = df.loc[106,:].to_numpy()
 np_butan = df.loc[29,:].to_numpy()
