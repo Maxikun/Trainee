@@ -28,7 +28,7 @@ class PIDController:
         return curr_error
 
 # Initialize PID controller
-pid = PIDController(kp=0.05, ki=0.001, kd=0.00001)
+pid = PIDController(kp=0.5, ki=0.01, kd=0.2)
 
 # Initialize error and time arrays
 curr_error = 10
