@@ -18,6 +18,6 @@ for i in range(len(x)-1):
         y_temp = x_t[i][0]*(j**3) + x_t[i][1]*(j**2) + x_t[i][2]*(j) + x_t[i][3]
         yi = np.append(yi, y_temp)
     plt.scatter(xi, yi)
-
+plt.scatter(x,y)
 plt.plot(x, y, 'ro')
 plt.show()
