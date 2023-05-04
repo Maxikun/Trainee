@@ -1,53 +1,78 @@
+import time
 import matplotlib.pyplot as plt
+import numpy as np
+
 class PIDController:
-    def __init__(self, kp, ki, kd):
+    def __init__(self, kp, ki, kd, dt, setpoint):
         self.kp = kp
         self.ki = ki
         self.kd = kd
-        self.prev_error = 0
+        self.dt = dt
+        self.setpoint = setpoint
+        self.clear()
+
+    def clear(self):
+        self.last_error = 0
+        self.derivative = 0
+        self.last_time = None
         self.integral = 0
+        self.errors = []
+        self.times = []
+        self.outputs = []
 
-    def pid_update(self, curr_error):
-        # Calculate proportional term
-        p_term = self.kp * curr_error
+    def update(self, process_variable):
+        # Calculate time since last update
+        now = time.time()
+        if self.last_time is None:
+            self.last_time = now
+            return 0.0
+        dt = now - self.last_time
 
-        # Calculate integral term
-        self.integral += curr_error
-        i_term = self.ki * self.integral
+        # Calculate error
+        error = self.setpoint - process_variable
 
         # Calculate derivative term
-        d_term = self.kd * (curr_error - self.prev_error)
-        self.prev_error = curr_error
+        self.derivative = (error - self.last_error) / dt if dt > 0 else 0.0
 
-        # Calculate total PID output
-        pid_output = p_term + i_term + d_term
+        # Calculate integral term
+        self.integral += error * dt
 
-        # Update current error
-        curr_error -= pid_output
 
-        return curr_error
+        # Calculate output
+        output = self.kp * error + self.ki * self.integral + self.kd * self.derivative
 
-# Initialize PID controller
-pid = PIDController(kp=0.5, ki=0.01, kd=0.2)
+        # Save error, time, and output for plotting
+        self.errors.append(error)
+        self.times.append(now)
+        self.outputs.append(output)
 
-# Initialize error and time arrays
-curr_error = 10
-errors = [curr_error]
-times = [0]
+        # Update last error and time
+        self.last_error = error
+        self.last_time = now
 
-# Simulate PID controller response over time
-dt = 0.01  # time step
-t = 0     # initial time
-while ((curr_error > 0.00001) or (curr_error < -0.00001)):
-    t += dt
-    curr_error = pid.pid_update(curr_error)
-    errors.append(curr_error)
-    times.append(t)
+        return output
 
-# Plot error vs time
-plt.plot(times, errors)
-plt.xlabel('Time (s)')
-plt.ylabel('Error')
-plt.title('PID Response')
-plt.grid()
-plt.show()
+    def plot(self):
+        plt.subplot(2, 1, 1)
+        plt.plot(self.times, self.setpoint * np.ones_like(self.times), 'k--', label='Setpoint')
+        plt.plot(self.times, self.outputs, label='Output')
+        plt.ylabel('Output')
+        plt.legend(loc='best')
+
+        plt.subplot(2, 1, 2)
+        plt.plot(self.times, self.errors, label='Error')
+        plt.ylabel('Error')
+        plt.legend(loc='best')
+        plt.xlabel('Time (sec)')
+        plt.show()
+
+
+pid = PIDController(kp=0.003, ki=0.5, kd=0.01, dt=0.01, setpoint=0.0)
+process_variable = 10.0
+
+for i in range(10000):
+    output = pid.update(process_variable)
+    process_variable += output
+    time.sleep(pid.dt)
+
+pid.plot()
